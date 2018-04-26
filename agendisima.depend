@@ -1,0 +1,30 @@
+# depslib dependency file v1.0
+1524372273 source:c:\users\francisco mansilla\desktop\agendaloca\main.cpp
+	<iostream>
+	<cstdlib>
+	<cstdio>
+	<cmath>
+	<string.h>
+	<string>
+	"CSYSTEM/csystem.h"
+	"misFunciones.h"
+	"registroTelefonos.h"
+	"registroPersonas.h"
+	"menu.h"
+
+1399506914 c:\users\francisco mansilla\desktop\agendaloca\csystem\csystem.h
+	<iostream>
+	<cstdlib>
+	<cstdio>
+	<ctime>
+	<windows.h>
+	<unistd.h>
+
+1524586969 c:\users\francisco mansilla\desktop\agendaloca\misfunciones.h
+
+1524586908 c:\users\francisco mansilla\desktop\agendaloca\registropersonas.h
+
+1524582385 c:\users\francisco mansilla\desktop\agendaloca\menu.h
+
+1524586908 c:\users\francisco mansilla\desktop\agendaloca\registrotelefonos.h
+
