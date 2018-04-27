@@ -12,6 +12,181 @@
 // DECLARACION DEL ESPACIO DE NOMBRES POR DEFECTO
 //------------------------------------------------------------------------------
 using namespace std;
+#include "prototipos.h"
+
+////===========================================================================
+//// FUNCION   : void modificar_contacto().
+//// ACCION    : Eliminado logico de un contacto
+//// PARAMETROS: NADA.
+//// DEVUELVE  : NADA.
+////---------------------------------------------------------------------------
+void modificar_contacto(persona per)
+{
+    int opci;
+    bool salir = false;
+    char nuevo_dato[50];
+
+    sys::cls();
+
+    mostrarContacto(per);
+    cout<<endl<<endl;
+
+    while (!salir)
+    {
+        menu_mod_contacto();
+
+        cin>>opci;
+        cin.ignore();
+
+        switch(opci)
+        {
+        case 1:
+        {
+            cout<<"Ingrese el nuevo Apellido  : ";
+            sys::getline(nuevo_dato, 50);
+            modificar_dato_persona(1, per.id_persona, nuevo_dato);
+        }
+        break;
+
+        case 2:
+        {
+            cout<<"Ingrese el nuevo Nombre  : ";
+            sys::getline(nuevo_dato, 50);
+            modificar_dato_persona(2, per.id_persona, nuevo_dato);
+        }
+        break;
+
+        case 3:
+        {
+            cout<<"Ingrese el nuevo Alias  : ";
+            sys::getline(nuevo_dato, 50);
+            modificar_dato_persona(3, per.id_persona, nuevo_dato);
+        }
+        break;
+
+        case 4:
+        {
+            cout<<"Ingrese el nuevo Correo  : ";
+            sys::getline(nuevo_dato, 50);
+            modificar_dato_persona(4, per.id_persona, nuevo_dato);
+        }
+        break;
+
+        case 0:
+        {
+            salir = true;
+        }
+        break;
+
+        default:
+        {
+            cout<<"Opcion incorrecta"<<endl;
+        }
+        break;
+        }
+    }
+}
+
+////===========================================================================
+//// FUNCION   : void modificar_registro().
+//// ACCION    : principal a la entrada de modificar un contacto o sus telefonos
+//// PARAMETROS: persona.
+//// DEVUELVE  : NADA.
+////---------------------------------------------------------------------------
+void modificar_registro(persona per)
+{
+    int id_telefono, opci;
+    bool salir = false;
+
+    while (!salir)
+    {
+
+        menu_mod();
+        cin>>opci;
+        cin.ignore();
+
+
+
+
+        switch(opci)
+        {
+        case 1:
+        {
+            modificar_contacto(per);
+        }
+        break;
+
+        case 2:
+        {
+            modificar_telefono(per);
+        }
+        break;
+
+        case 0:
+        {
+            salir = true;
+        }
+        break;
+
+        default:
+        {
+            cout<<"Opcion incorrecta"<<endl;
+            sys::msleep(2);
+            cin>>opci;
+            cin.ignore();
+        }
+        }
+    }
+
+}
+
+////===========================================================================
+//// FUNCION   : void modificar_dato_persona(int opc, int id_persona, char* nuevo_dato).
+//// ACCION    : Dependiendo de la opc recivida, modifica el contacto o lo elimina
+//// PARAMETROS: opc, ed_persona, nuevo_dato.
+//// DEVUELVE  : NADA.
+////---------------------------------------------------------------------------
+void modificar_dato_persona(int opc, int id_persona, char* nuevo_dato)
+{
+    persona per;
+    FILE *arch_per = fopen(ruta_persona, "rb+" );
+
+    while(fread(&per, sizeof(persona),1,arch_per) )
+    {
+        if ( id_persona == per.id_persona &&
+                per.eliminado == false )
+        {
+            if (opc == 1 )
+                strcpy(per.apellido, nuevo_dato);
+
+            if (opc == 2 )
+                strcpy(per.nombre, nuevo_dato);
+
+            if (opc == 3 )
+                strcpy(per.alias, nuevo_dato);
+
+            if (opc == 4 )
+                strcpy(per.email, nuevo_dato);
+
+            if(opc == 5)
+                per.eliminado = true;
+
+            fseek(arch_per,-sizeof(per),1);
+            fwrite(&per, sizeof(persona),1,arch_per);
+
+            if (opc == 5)
+                cout<<"Contacto Eliminado"<<endl;
+            else
+                cout<<"Contacto Modificado"<<endl;
+
+            sys::msleep(2);
+            break;
+        }
+    }
+
+    fclose(arch_per);
+    cin.get();
+}
 
 //===========================================================================
 // FUNCION   : bool guardar_persona(persona per).
@@ -30,6 +205,72 @@ bool guardar_persona(persona per){
     cout << "\nSE GUARDARON LOS DATOS CORRECTAMENTE..." << endl;
     ID_per ++;
     return true;
+}
+
+////===========================================================================
+//// FUNCION   : void eliminar_registro(persona per).
+//// ACCION    : Agregar telefonos,
+//// PARAMETROS: NADA.
+//// DEVUELVE  : NADA.
+////---------------------------------------------------------------------------
+void eliminar_registro(persona per)
+{
+    int id_telefono, opci;
+    bool salir = false;
+
+
+    sys::cls();
+
+    mostrarContacto(per);
+    cout<<endl<<endl;
+
+    while (!salir)
+    {
+        menu_eliminar_registro();
+
+        cin>>opci;
+        cin.ignore();
+
+        switch(opci)
+        {
+        case 1:
+        {
+
+
+            modificar_dato_persona(5, per.id_persona, "A");
+            salir = true;
+        }
+        break;
+
+        case 2:
+        {
+            cout<<"Ingrese el ID de telefono a eliminar \n (cero para salir)"<<endl;
+            cin>>id_telefono;
+            cin.ignore();
+            if(id_telefono != 0)
+                editar_telefono(per, id_telefono,1, 0, "A");
+
+            salir = true;
+
+        }
+        break;
+
+        case 0:
+        {
+            salir = true;
+
+        }
+        break;
+
+        default:
+        {
+            cout<<"Opcion incorrecta"<<endl;
+            sys::msleep(2);
+
+        }
+        break;
+        }
+    }
 }
 
 //===========================================================================
@@ -73,7 +314,7 @@ void cargar_persona(){
     persona per;
     datos_persona(&per);
     if(guardar_persona(per))
-        cargarTelefonos(per.id_persona);
+    cargarTelefonos(per.id_persona);
     sys::cls();
 
 }

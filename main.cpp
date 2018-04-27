@@ -74,11 +74,7 @@
 //                             INCLUSIONES PERSONALES
 //=============================================================================
 #include "CSYSTEM/csystem.h" // Libreria para multiplataforma.
-#include "misFunciones.h"
-#include "registroTelefonos.h"
-#include "registroPersonas.h"
-#include "menu.h"
-
+#include "prototipos.h"
 //==============================================================================
 // DECLARACION DEL ESPACIO DE NOMBRES POR DEFECTO
 //------------------------------------------------------------------------------

@@ -8,11 +8,15 @@
 //****************************************************************************
 #ifndef MENU_H_INCLUDED
 #define MENU_H_INCLUDED
+#include "misFunciones.h"
+#include "registroPersonas.h"
+#include "registroPersonasEncontradas.h"
+#include "registroTelefonos.h"
 //****************************************************************************
 //==============================================================================
 // DECLARACION DEL ESPACIO DE NOMBRES POR DEFECTO
 //------------------------------------------------------------------------------
-//using namespace std;
+using namespace std;
 //*****************************************************************************
 //======================================================================
 // FUNCION : presentacion ()
@@ -190,7 +194,7 @@ void sub_Menu_Buscar(int mod_bus)
             case 'a':
             case 'A':
             {
-                if( !buscar(1) )
+                if( !buscar(1))
                 {
                     encontro = false; // Si no encontro, no se puede modificar
                     cout << "No se encontro el Apellido buscado...";
@@ -254,6 +258,62 @@ void sub_Menu_Buscar(int mod_bus)
         }
     }
     //return result;
+}
+
+////===========================================================================
+//// FUNCION   : void menu_mod().
+//// ACCION    : Muestra menu modificacion de registro.
+//// PARAMETROS: NADA.
+//// DEVUELVE  : NADA.
+////---------------------------------------------------------------------------
+void menu_mod()
+{
+    cout<< " ======================================="<<endl;
+    cout<< "|                                       |"<<endl;
+    cout<< "| 1) - MODIFICAR DATOS DEL CONTACTO     |"<<endl;
+    cout<< "| 2) - MODIFICAR DATOS DE SUS TELEFONOS |"<<endl;
+    cout<< "| 0) - VOLVER AL MENU PRINCIPAL         |"<<endl;
+    cout<< "|                                       |"<<endl;
+    cout<< " ======================================= "<<endl;
+    cout<< " INGRESE UNA OPCION: ";
+}
+
+////===========================================================================
+//// FUNCION   : void menu_eliminar_registro().
+//// ACCION    : Muestra menu eliminacion de registro
+//// PARAMETROS: NADA.
+//// DEVUELVE  : NADA.
+////---------------------------------------------------------------------------
+void menu_eliminar_registro()
+{
+    cout<< " =================================="<<endl;
+    cout<< "|                                  |"<<endl;
+    cout<< "|  1) - ELIMINAR CONTACTO          |"<<endl;
+    cout<< "|  2) - ELIMINAR TELEFONO          |"<<endl;
+    cout<< "|  0) - VOLVER AL MENU PRINCIPAL   |"<<endl;
+    cout<< "|                                  |"<<endl;
+    cout<< " =================================="<<endl;
+    cout<< " INGRESE UNA OPCION: ";
+}
+
+////===========================================================================
+//// FUNCION   : void menu_mod_datos().
+//// ACCION    : Muestra menu modificacion datos contacto.
+//// PARAMETROS: NADA.
+//// DEVUELVE  : NADA.
+////---------------------------------------------------------------------------
+void menu_mod_contacto()
+{
+    cout<< " =================================="<<endl;
+    cout<< "|                                  |"<<endl;
+    cout<< "|  1) - MODIFICAR APELLIDO         |"<<endl;
+    cout<< "|  2) - MODIFICAR NOMBRE           |"<<endl;
+    cout<< "|  3) - MODIFICAR ALIAS            |"<<endl;
+    cout<< "|  4) - MODIFICAR CORREO           |"<<endl;
+    cout<< "|  0) - VOLVER AL MENU PRINCIPAL   |"<<endl;
+    cout<< "|                                  |"<<endl;
+    cout<< " =================================="<<endl;
+    cout<< " INGRESE UNA OPCION: ";
 }
 
 //===========================================================================

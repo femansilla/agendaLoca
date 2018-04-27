@@ -8,36 +8,98 @@
 //****************************************************************************
 #ifndef MISFUNCIONES_H_INCLUDED
 #define MISFUNCIONES_H_INCLUDED
+#include "menu.h"
+#include "registroPersonas.h"
+#include "registroPersonasEncontradas.h"
+#include "registroTelefonos.h"
 //==============================================================================
 // DECLARACION DEL ESPACIO DE NOMBRES POR DEFECTO
 //------------------------------------------------------------------------------
 using namespace std;
 //****************************************************************************
 
-const char ruta_persona[] = "Datos.data";
-const char ruta_telefono[] = "Telefono.data";
-const char ruta_per_encontradas[] = "Personas_Encontradas.data";
-int ID_per, ID_tel = 0;
 
-struct persona
-{
-    int id_persona;
-    char nombre[50];
-    char apellido[50];
-    char alias[50];
-    char domicilio[50];
-    char email[50];
-    bool eliminado;
-};
 
-struct telefono
+////===========================================================================
+//// FUNCION   :bool buscar(int opc).
+//// ACCION    : busca de forma generica un contacto por Apellido,Nombre o Alias
+//// PARAMETROS: NADA.
+//// DEVUELVE  : NADA.
+////---------------------------------------------------------------------------
+bool buscar(int opc)
 {
-    int id_telefono;
-    int id_persona;
-    char tipo[50];
-    char numero[10];
-    bool eliminado;
-};
+    FILE *arch_per = fopen(ruta_persona, "rb+" );
+    persona per;
+    char sub_cadena[30];
+    bool retorno = false;
+    int encontrado = 0;
+    FILE *arch_per_encotradas = fopen(ruta_per_encontradas, "wb" );
+
+    mostrar_opcion_busqueda(opc);
+    sys::getline(sub_cadena, 30);
+    sys::cls();
+
+
+    while(fread(&per, sizeof(persona),1,arch_per))
+    {
+        if(per.eliminado != true)
+        {
+            encontrado = 0;
+
+            switch (opc)
+            {
+            case 1:
+            {
+                if ( buscar_subcadena(per.apellido, sub_cadena ) != -1 )
+                {
+                    mostrarContacto(per);
+                    retorno = true;
+                    encontrado = 1;
+                }
+            }
+            break;
+
+            case 2:
+            {
+                if ( buscar_subcadena(per.nombre, sub_cadena ) != -1 )
+                {
+                    mostrarContacto(per);
+                    retorno = true;
+                    encontrado = 1;
+                }
+            }
+            break;
+
+            case 3:
+            {
+                if ( buscar_subcadena(per.alias, sub_cadena ) != -1 )
+                {
+                    mostrarContacto(per);
+                    retorno = true;
+                    encontrado = 1;
+                }
+            }
+            break;
+
+            default:
+            {
+
+            } break;
+            }
+
+            if (encontrado  == 1)
+                fwrite(&per, sizeof(per), 1, arch_per_encotradas);
+        }
+
+    }
+
+    cin.get();
+
+    fclose(arch_per);
+    fclose(arch_per_encotradas);
+
+    return retorno;
+}
 
 ////===========================================================================
 //// FUNCION   : void  contar_ID().
@@ -272,7 +334,7 @@ int buscar_subcadena(char* persona_nombre, char* subcadena)
 void preguntar_id(int opc)
 {
     FILE *arch_per_encotradas = fopen(ruta_per_encontradas, "rb" );
-    if(arch_per_enc == NULL)
+    if(arch_per_encotradas == NULL)
         exit(97);
     persona per;
     int id_contacto;
