@@ -17,7 +17,47 @@
 // DECLARACION DEL ESPACIO DE NOMBRES POR DEFECTO
 //------------------------------------------------------------------------------
 using namespace std;
+
+////===========================================================================
+//// FUNCION   : void menu_mod_telefonos().
+//// ACCION    : Muestra menu modificacion telefonos contacto.
+//// PARAMETROS: NADA.
+//// DEVUELVE  : NADA.
+////---------------------------------------------------------------------------
+void menu_mod_telefonos()
+{
+    cout<< " =================================="<<endl;
+    cout<< "|                                  |"<<endl;
+    cout<< "|  1) - AGREGAR TELEFONOS          |"<<endl;
+    cout<< "|  2) - MODIFICAR TELEFONOS        |"<<endl;
+    cout<< "|  3) - RECUPERAR TELEFONO         |"<<endl;
+    cout<< "|  0) - VOLVER AL MENU PRINCIPAL   |"<<endl;
+    cout<< "|                                  |"<<endl;
+    cout<< " =================================="<<endl;
+    cout<< " INGRESE UNA OPCION: ";
+}
+
 //*****************************************************************************
+
+////===========================================================================
+//// FUNCION   : void menu_switch_mod_telefono().
+//// ACCION    : Muestra menu modificacion de telefono.
+//// PARAMETROS: NADA.
+//// DEVUELVE  : NADA.
+////---------------------------------------------------------------------------
+
+void menu_switch_mod_telefono()
+{
+    cout<< " =================================="<<endl;
+    cout<< "|                                  |"<<endl;
+    cout<< "|  1) - MODIFICAR TIPO             |"<<endl;
+    cout<< "|  2) - MODIFICAR NUMERO           |"<<endl;
+    cout<< "|  0) - VOLVER AL MENU PRINCIPAL   |"<<endl;
+    cout<< "|                                  |"<<endl;
+    cout<< " =================================="<<endl;
+    cout<< " INGRESE UNA OPCION: ";
+}
+
 //======================================================================
 // FUNCION : presentacion ()
 // ACCION : muestra la presentacion.

@@ -7,6 +7,70 @@
 //------------------------------------------------------------------------------
 using namespace std;
 
+
+////===========================================================================
+//// FUNCION   : void modificar_telefono().
+//// ACCION    : Agregar telefonos, o modificar lo que ya tiene una persona
+//// PARAMETROS: persona.
+//// DEVUELVE  : NADA.
+////---------------------------------------------------------------------------
+void modificar_telefono(persona per)
+{
+    int id_telefono, opci;
+    bool salir = false;
+
+    sys::cls();
+
+    mostrar_contacto(per);
+    cout<<endl<<endl;
+
+    while (!salir)
+    {
+        menu_mod_telefonos();
+        cin>>opci;
+        cin.ignore();
+
+        switch(opci)
+        {
+        case 1:
+        {
+            cargarTelefonos(per.id_persona);
+        }
+        break;
+
+        case 2:
+        {
+            cout<<"Ingrese el ID del telefono a modificar"<<endl;
+            cin>>id_telefono;
+            modificar_lista_contactos(per, id_telefono);
+            salir = true;
+
+        }
+        break;
+
+        case 3:
+        {
+            mostrar_contactos_eliminados();
+            salir = true;
+        }
+        break;
+
+        case 0:
+        {
+            salir = true;
+        }
+        break;
+
+        default:
+        {
+            cout<<"Opcion incorrecta"<<endl;
+            sys::msleep(2);
+        }
+        break;
+        }
+    }
+}
+
 //===========================================================================
 // FUNCION   : bool guardarTel(telefono tel).
 // ACCION    : .
@@ -32,17 +96,17 @@ bool guardarTel(telefono tel){
 //// PARAMETROS: persona per, telefono *tel.
 //// DEVUELVE  : NADA.
 ////---------------------------------------------------------------------------
-void cargarTelefono(int id_persona, telefono *tel){
+telefono cargarTelefono(int id_persona){
 
-    cout<< " Ingrese el TIPO del numero: ";
-    sys::getline( tel->tipo, 50);
-    cout<< " Ingrese el NUMERO del contacto: ";
-    sys::getline(tel->numero, 10);
+    telefono reg;
+    validacionCadena(reg.tipo, "tipo");
+    validacionCadena(reg.numero, "numero");
+
     bool esNum = false;
     //TODO: brackpoint
     while(!esNum)
     {
-        if(esNumero(tel->numero) && (strlen(tel->numero) >= 8 && (strlen(tel->numero) <= 10)))
+        if(esNumero(reg.numero) && strlen(reg.numero) > 1 && strlen(reg.numero) < 10 )
             esNum = true;
         if(!esNum)
         {
@@ -51,14 +115,15 @@ void cargarTelefono(int id_persona, telefono *tel){
             sys::msleep(1);
             sys::cls();
             cout<< " Ingrese el NUMERO nuevamente: ";
-            sys::getline(tel->numero,10);
+            sys::getline(reg.numero,10);
         }
     }
 
-    tel->id_persona = id_persona;
-    tel->id_telefono = ID_tel;
-    tel->eliminado = false;
+    reg.id_persona = id_persona;
+    reg.id_telefono = ID_tel;
+    reg.eliminado = false;
     sys::cls();
+    return reg;
 }
 
 ////===========================================================================
@@ -74,10 +139,10 @@ void cargarTelefonos(int id_persona)
     do{
         cout<< "\nPARA CARGAR UN NUEMRO AL CONTACTO PRESIONE 'C'...\n";
         key = sys::getch();
-        //cin.ignore();
+        cin.ignore();
         if(key == 'c' || key == 'C'){
             if(ID_tel != NULL){
-                cargarTelefono(id_persona, &tel);
+                tel = cargarTelefono(id_persona);
                 if(guardarTel(tel)){
                     cout << "SE GUARDO EL TELEFONO CORRECTAMENTE...";
                     sys::msleep(1);
@@ -86,7 +151,7 @@ void cargarTelefonos(int id_persona)
             }
         }
         key = sys::getch();
-
+        cin.ignore();
         if(key == 's' || key == 'S')
             break;
 

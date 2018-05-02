@@ -27,15 +27,15 @@ struct telefono
 };
 
 //registro Telefono
+void modificar_telefono(persona per);
 bool guardarTel(telefono tel);
-void cargarTelefono(int id_persona, telefono *tel);
+telefono cargarTelefono(int id_persona);
 void cargarTelefonos(int id_persona);
 void mostrarTelefono(telefono tel);
 void mostrarTelefonosByContacto(int id_persona);
 void mostrarTelefonosEliminadosByContacto(int id_persona);
 void eliminar_telefono(int id_telefono);
-void editar_telefono(persona per, int id_telefono, int opcion, int nuevo_numero, char* nuevo_tipo);
-
+void editar_telefono(persona per, int id_telefono, int opcion, char* nuevo_numero, char* nuevo_tipo);
 //misFunciones.h
 void contar_ID();
 bool esNumero(char* cadena);
@@ -48,20 +48,27 @@ int buscar_subcadena(char* persona_nombre, char* subcadena);
 void preguntar_id(int opc);
 bool buscar(int opc);
 void mostrar_contactosEncontrados();
+void validacionCadena(char *campo, char *texto);
 
 //registroPersonas.h
+void recuperar_contacto(int id_contacto);
+void modificar_lista_contactos(persona per, int id_telefono);
+void mostrar_contactos_eliminados();
+void mostrar_contacto(persona per);
 void modificar_contacto(persona per);
 void modificar_registro(persona per);
 void modificar_dato_persona(int opc, int id_persona, char* nuevo_dato);
 void eliminar_registro(persona per);
 bool guardar_persona(persona per);
-void datos_persona(persona *per);
+persona datos_persona();
 void cargar_persona();
 void mostrarContacto(persona per);
 void modificarContacto(int opc, int id_persona, char* nuevo_dato);
 void opciones_modificacion_contacto(persona per);
 
 //menu.h
+void menu_mod_telefonos();
+void menu_switch_mod_telefono();
 void menu_mod();
 void menu_eliminar_registro();
 void despedida();

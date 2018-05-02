@@ -146,7 +146,7 @@ void contar_ID()
 bool esNumero(char* cadena)//* pasar por puntero porque es una cadena/vector.
 {
     int i = 0;
-    while(cadena[i] != '\0' || strlen(cadena) > 1) //'\0' fin de cadena.
+    while(cadena[i] != '\0') //'\0' fin de cadena.
     {
         if(cadena[i] < '1' && cadena[i] > '9')
             return false;
@@ -210,6 +210,20 @@ void mostrar_opcion_busqueda(int opc)
             cout<<"Ingrese Alias:  ";
         break;
     }
+}
+
+void validacionCadena(char *campo, char *texto){
+
+    do{
+        cout<< " Ingrese el "<< texto << " del contacto: ";
+        sys::getline(campo, 50);
+        if(strlen(campo) < 1){
+                sys::cls();
+                cout<< " El " << texto << " no puede estar vacio...\n Ingrese nuevamente el " << texto << " del contacto: ";
+                sys::getline(campo, 50);
+        }
+
+    }while(strlen(campo) < 1);
 }
 
 //=============================================================================
@@ -374,92 +388,6 @@ void preguntar_id(int opc)
 }
 
 
-////===========================================================================
-//// FUNCION   :bool buscar(int opc).
-//// ACCION    : busca de forma generica un contacto por Apellido,Nombre o Alias
-//// PARAMETROS: NADA.
-//// DEVUELVE  : NADA.
-////---------------------------------------------------------------------------
-bool buscar(int opc)
-{
-    FILE *arch_per;
-    arch_per = fopen(ruta_persona,"rb");
-    if(arch_per == NULL)
-        exit(99);
-
-    FILE *arch_per_enc;
-    arch_per_enc = fopen(ruta_per_encontradas, "wb");
-    if(arch_per_enc == NULL)
-        exit(97);
-    persona per;
-
-    char sub_cadena[30];
-    bool retorno = false;
-    int encontrado = 0;
-    mostrar_opcion_busqueda(opc);
-    sys::getline(sub_cadena, 30);
-    sys::cls();
-
-    //TODO: ver el puto personas encontradas...
-    while(fread(&per, sizeof(persona),1,arch_per))
-    {
-        if(per.eliminado != true)
-        {
-            //bool encontrado = false;
-            switch (opc)
-            {
-                case 1:
-                {
-                    if ( CheckSubstring(per.apellido, sub_cadena) ) //buscar_subcadena(per.apellido, sub_cadena ) != -1 )
-                    {
-                        //mostrar_contacto(per);
-                        retorno = true;
-                        encontrado = 1;
-                    }
-                }
-                break;
-
-                case 2:
-                {
-                    if ( CheckSubstring(per.nombre, sub_cadena) ) //buscar_subcadena(per.nombre, sub_cadena ) != -1 )
-                    {
-                        //mostrar_contacto(per);
-                        retorno = true;
-                        encontrado = 1;
-                    }
-                }
-                break;
-
-                case 3:
-                {
-                    if ( CheckSubstring(per.alias, sub_cadena) ) //buscar_subcadena(per.alias, sub_cadena ) != -1 )
-                    {
-                        //mostrar_contacto(per);
-                        retorno = true;
-                        encontrado = 1;
-                    }
-                }
-                break;
-
-                default:
-                {
-                    retorno = false;
-                    encontrado = 2;
-                } break;
-            }
-            if (encontrado == 1)
-            {
-                fwrite(&per, sizeof(persona), 1, arch_per_enc);
-            }
-
-        }
-    }
-    fclose(arch_per);
-    fclose(arch_per_enc);
-    //mostrar_contactosEncontrados();
-    //cin.ignore();
-    return retorno;
-}
 
 //===========================================================================
 // FUNCION   : void mostrar_contactosEncontrados(persona per)
